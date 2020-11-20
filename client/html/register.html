@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<link rel="icon" href="data:;base64,=">
+	<link rel="stylesheet" href="../assets/styles.css">
+	<title>TheWarProject</title>
+</head>
+
+<body>
+	<div id="particles-js">
+		<div id="register">
+			<h1>The War Project</h1>
+			<h2 style="text-align: center;">Register</h2>
+			<div id="form-body">
+				<input name="userId" type="text" id="userId" placeholder="username" pattern=".{2,4}" required>
+				<input name="email" type="email" id="email" placeholder="email" required>
+				<input name="password" type="password" id="password" placeholder="password" pattern=".{6,12}" required>
+			</div>
+			<div class="form-footer">
+				<input type="submit" value="Submit" onClick="formValidation()">
+			</div>
+			<span id="errorId"></span>
+			<span id="errorEmail"></span>
+			<span id="errorPass"></span>
+			<div class="login-here">
+				<h2><a href="/">Got account? Log in here</a></h2>
+			</div>
+		</div>
+		<div class="verify" style="display: none;" id="verification">
+			<h1>Verification</h1>
+			<h2>Please verify the code sent to your mail</h2>
+			<div id="form-body">
+				<input name="code" type="text" id="code" placeholder="code">
+			</div>
+			<span id="errorCode"></span>
+			<div class="form-footer">
+				<input type="submit" value="Submit" onClick="sendCode()">
+			</div>
+		</div>
+		<div class="enter-game-class" id="enter-game" style="display: none;">
+			<input type="submit" value="Enter Game" onClick="window.location.href='/game'">
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="../js/register.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="icon" href="data:;base64,=">
+	<link rel="stylesheet" href="./assets/styles.css">
+	<title>TheWarProject</title>
+</head>
+
+<body>
+	<div id="particles-js">
+		<div id="login">
+			<h1>The War Project</h1>
+			<h2 style="text-align: center;">Admin Login</h2>
+			<div id="form-body">
+				<input name="email" type="email" id="email" placeholder="email" required>
+				<input name="password" type="password" id="password" placeholder="password" pattern=".{6,12}" required>
+			</div>
+			<div class="form-footer">
+				<input type="submit" value="Submit" onClick="formValidation()">
+			</div>
+			<span id="errorEmail"></span>
+			<span id="errorPass"></span>
+		</div>
+		<div class="admin" id="admin-id" style="display: none;">
+			<h1>The War Project</h1>
+			<h2 style="text-align: center;">Admin</h2>
+			<div id="dashboard">
+				<div id="logged-users">
+					<table id="table" class="table">
+						<tr>
+							<th>Rank</th>
+							<th>User</th>
+							<th>Status</th>
+							<th>IP</th>
+							<th>Location</th>
+							<th>Win</th>
+							<th>Loss</th>
+							<th>Health</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="./js/admin.js"></script>
+
+</body>
+
+</html>

@@ -37,7 +37,7 @@ function resizeCanvas() {
 //====================>>
 socket.on("Game starting", function (data) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  displayTime(data.currentTime);
+  // displayTime(data.currentTime);
   displayMatchStats(data);
   check_msg(data);
   game_loop(data);
@@ -198,11 +198,11 @@ function drawBullet(player) {
   }
 }
 
-function displayTime(currentTime) {
-  ctx.font = "20px Courier New";
-  ctx.fillStyle = "#fff";
-  ctx.fillText(currentTime, 100, 20);
-}
+// function displayTime(currentTime) {
+//   ctx.font = "20px Courier New";
+//   ctx.fillStyle = "#fff";
+//   ctx.fillText(currentTime, 100, 20);
+// }
 
 function displayMessage(msg, timer) {
   ctx.font = "20px Courier New";
@@ -238,7 +238,9 @@ function playerInfo(player) {
   ctx.fillStyle = "#fff";
   ctx.font = "10px Courier New";
   ctx.fillText(player.pName, player.pCordX, player.pCordY - 40);
-  playerName.innerHTML = player.pName;
+  let username = localStorage.getItem("userid");
+  // playerName.innerHTML = player.pName;
+  playerName.innerHTML = username;
 }
 
 function translation(player) {

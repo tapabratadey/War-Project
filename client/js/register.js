@@ -41,22 +41,23 @@ async function formValidation() {
     errPass.innerHTML = "Password length should be between 6-12.";
   else {
     //API for get requests
-    await fetch(
-      "http://cors-anywhere.herokuapp.com/http://api.ipify.org?format=json"
-    )
-      .then(checkError)
-      .then((ipAdd) => {
-        console.log(ipAdd);
-        storeIp = ipAdd.ip;
-      })
-      .catch((err) => console.log(err));
+    // await fetch(
+    //   "http://cors-anywhere.herokuapp.com/http://api.ipify.org?format=json"
+    // )
+    //   .then(checkError)
+    //   .then((ipAdd) => {
+    //     console.log(ipAdd);
+    //     storeIp = ipAdd.ip;
+    //   })
+    //   .catch((err) => console.log(err));
     var RegistrationData = {
       username: userId.value.toLowerCase(),
       email: email.value.toLowerCase(),
       password: password.value,
-      ip: storeIp,
+      // ip: storeIp,
     };
     localStorage.setItem("user", RegistrationData.email);
+    localStorage.setItem("userid", RegistrationData.username);
     socket.emit("Registration Validation OK", RegistrationData);
   }
 }

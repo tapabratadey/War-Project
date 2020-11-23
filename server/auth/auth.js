@@ -4,6 +4,7 @@ const { sendNodeMail } = require("../helpers/nodemailer");
 const {
   update_login_data,
   update_logged_status,
+  update_player_cords,
 } = require("../player/updateDB");
 const Player = require("../player/Server.Player");
 const fetch = require("node-fetch");
@@ -17,7 +18,7 @@ export async function login({ email, password, ip }, socket) {
       if (err) console.error(err);
       if (matched) {
         update_logged_in_status(found_user, ip);
-        socket.emit("UserAuthenticated");
+        socket.emit("UserAuthenticated", found_user.username);
       } else socket.emit("Username or Password is not valid");
     });
   }

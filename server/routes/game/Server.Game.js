@@ -22,6 +22,19 @@ export async function init_game(socket, email) {
     Player.playerList[socket.id] = user;
   }
 }
+
+// update_player_cords
+// power button
+// change player drawing
+// update leaderboard
+// change timing events
+// delete current time
+// update player wins/losses at the end of the match of winner/loser
+// diagonal calculations
+// show winning score for player
+// change icons
+// fix user name on the hamburger menu
+
 let user_array = [];
 
 export async function send_users(socket) {
@@ -109,19 +122,11 @@ function give_points(winner, infoPlayers) {
   }
 }
 
-function send_players_to_client(
-  infoPlayers,
-  currentTime,
-  mins,
-  secs,
-  msg,
-  winner
-) {
+function send_players_to_client(infoPlayers, mins, secs, msg, winner) {
   for (let i in SOCKET_LIST) {
     let socket = SOCKET_LIST[i];
     socket.emit("Game starting", {
       infoPlayers,
-      currentTime,
       mins,
       secs,
       msg,

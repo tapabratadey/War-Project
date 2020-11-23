@@ -27,15 +27,15 @@ async function formValidation() {
     errEmail.innerHTML = "Please provide a valid email";
   else {
     //API for get requests
-    await fetch(
-      "http://cors-anywhere.herokuapp.com/http://api.ipify.org?format=json"
-    )
-      .then(checkError)
-      .then((ipAdd) => {
-        console.log(ipAdd);
-        storeIp = ipAdd.ip;
-      })
-      .catch((err) => console.log(err));
+    // await fetch(
+    //   "http://api.ipify.org?format=json"
+    // )
+    //   .then(checkError)
+    //   .then((ipAdd) => {
+    //     console.log(ipAdd);
+    //     storeIp = ipAdd.ip;
+    //   })
+    //   .catch((err) => console.log(err));
     var LoginData = {
       email: email.value.toLowerCase(),
       password: password.value,
@@ -46,7 +46,8 @@ async function formValidation() {
   }
 }
 
-socket.on("UserAuthenticated", function () {
+socket.on("UserAuthenticated", function (username) {
+  localStorage.setItem("userid", username);
   enterGame.style.display = "block";
   loginDiv.style.display = "none";
 });

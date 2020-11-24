@@ -93,6 +93,7 @@ closeMenu.addEventListener("click", () => {
 //====================>>
 socket.on("logout player", function () {
   localStorage.removeItem("user");
+  localStorage.removeItem("userid");
   window.location.href = "/";
 });
 

@@ -8,12 +8,14 @@ import {
 } from "../../player/updateDB";
 
 export let SOCKET_LIST = {};
-export let inMatch = true;
+export let isMatch;
 
 export async function init_game(socket, email) {
   const user = await User.findOne({ email: email });
-  if (!user) socket.emit("Please Log In.");
-  else {
+  if (!user) {
+    socket.emit("Please Log In.");
+  } else {
+    socket.emit("Okay to display game");
     console.log(`${email} has joined game`);
     socket.id = user._id;
     SOCKET_LIST[socket.id] = socket;
@@ -66,10 +68,11 @@ setInterval(function () {
   let msg;
   let winner;
   if (mins % 5 == 1 || mins % 5 == 2 || mins % 5 == 3 || mins % 5 == 4) {
+    isMatch = true;
     msg = "FIGHT!!!!!";
     if (mins % 5 == 4 && secs >= 50) msg = "Match is Ending in...";
   } else if (mins % 5 == 0) {
-    inMatch = false;
+    isMatch = false;
     //match not in session
     if (totalUsers > 1) {
       msg = "WINNER IS...";

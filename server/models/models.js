@@ -74,6 +74,12 @@ const UserSchema = new Schema({
   angle: {
     type: Number,
   },
+  frameX: {
+    type: Number,
+  },
+  frameY: {
+    type: Number,
+  },
   pColor: {
     type: String,
   },

@@ -113,6 +113,8 @@ function return_user_data(email, username, password, ip, location) {
     pLeft: false,
     pUp: false,
     pDown: false,
+    frameX: 0,
+    frameY: 0,
     angle: 0,
     pColor: generateRandomColor(),
   };

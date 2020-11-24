@@ -24,7 +24,7 @@ export function bulletHit(player, bullet) {
       let dx = player.cordX - bullet.cordX;
       let dy = player.cordY - bullet.cordY;
       let distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < 22.5 + 4) {
+      if (distance < 30 + 4) {
         player.health -= 5;
         if (player.health === 0) {
           player.health = 100;

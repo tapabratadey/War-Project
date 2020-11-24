@@ -15,17 +15,17 @@ let closeMenu = document.getElementById("close-menu");
 
 let user = localStorage.getItem("user");
 window.onload = function () {
-  if (user) {
-    socket.emit("Game Local Storage Data", user);
-    resizeCanvas();
-    playerName.style.display = "block";
-    logOut.style.display = "block";
-    menuSign.style.display = "block";
-    closeMenu.style.display = "block";
-  } else {
-    window.location.href = "/";
-  }
+  if (user) socket.emit("Game Local Storage Data", user);
+  else window.location.href = "/";
 };
+
+socket.on("Okay to display game", function () {
+  resizeCanvas();
+  playerName.style.display = "block";
+  logOut.style.display = "block";
+  menuSign.style.display = "block";
+  closeMenu.style.display = "block";
+});
 
 function resizeCanvas() {
   let width = 3840;
@@ -96,7 +96,7 @@ socket.on("logout player", function () {
   window.location.href = "/";
 });
 
-socket.on("Please Log In", function () {
+socket.on("Please Log In.", function () {
   window.location.href = "/";
 });
 
@@ -174,16 +174,21 @@ setInterval(function () {
 //==============>>
 //	DRAW FUNCS
 //===============>
+const pSprite = new Image();
+pSprite.src = "../assets/hulk.png";
+
 function drawPlayer(player) {
-  translation(player);
-  ctx.moveTo(player.pCordX, player.pCordY);
-  ctx.lineTo(player.pCordX - 12.5, player.pCordY + 25);
-  ctx.lineTo(player.pCordX + 12.5, player.pCordY + 25);
-  ctx.closePath();
-  ctx.strokeStyle = player.pColor;
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  ctx.restore();
+  ctx.drawImage(
+    pSprite,
+    40 * player.frameX,
+    56 * player.frameY,
+    40,
+    56,
+    player.pCordX,
+    player.pCordY,
+    40,
+    56
+  );
   healthBar(player);
   playerInfo(player);
 }
@@ -251,21 +256,13 @@ function playerInfo(player) {
   playerName.innerHTML = username;
 }
 
-function translation(player) {
-  ctx.save();
-  ctx.translate(player.pCordX, player.pCordY);
-  ctx.rotate(player.pAngle * (Math.PI / 180));
-  ctx.translate(-player.pCordX, -player.pCordY);
-  ctx.beginPath();
-}
-
 function lifeRemaining(player, bHit) {
   green_health(player);
-  translation(player);
+  ctx.beginPath();
   ctx.arc(
-    (3 * player.pCordX - 2.5) / 3,
-    (3 * player.pCordY + 45) / 3,
-    22.5,
+    player.pCordX + 20,
+    player.pCordY + 26.5,
+    30,
     2 * Math.PI,
     bHit * Math.PI
   );
@@ -276,18 +273,17 @@ function lifeRemaining(player, bHit) {
 }
 
 function green_health(player) {
-  translation(player);
+  ctx.beginPath();
   ctx.arc(
-    (3 * player.pCordX - 2.5) / 3,
-    (3 * player.pCordY + 45) / 3,
-    22.5,
+    player.pCordX + 20,
+    player.pCordY + 26.5,
+    30,
     0 * Math.PI,
     2 * Math.PI
   );
   ctx.strokeStyle = "green";
   ctx.lineWidth = 2;
   ctx.stroke();
-  ctx.restore();
 }
 
 function healthBar(player) {

@@ -32,7 +32,7 @@ export function update_keys(socket, key) {
     else if (key.inputId === "up") user.pUp = key.state;
     else if (key.inputId === "down") user.pDown = key.state;
     else if (key.inputId === "shoot" && key.state && user.health > 0) {
-      if (Game.inMatch) {
+      if (Game.isMatch) {
         let bullet = new BulletObj(user.cordX, user.cordY, user.id);
         Bullet.update_bullets(user, bullet);
       }
@@ -54,6 +54,8 @@ function push_to_array(player, players_info) {
     pAngle: player.angle,
     bulletArr: Bullet.bulletArr,
     pColor: player.pColor,
+    frameX: player.frameX,
+    frameY: player.frameY,
   });
 }
 
@@ -70,10 +72,13 @@ function sort_match_wins(players_info) {
   return players_info;
 }
 
-function accelerate(speedX, speedY, angle, player) {
+function accelerate(speedX, speedY, angle, frameY, player) {
   player.cordX += speedX;
   player.cordY += speedY;
   player.angle = angle;
+  if (player.frameX < 3) player.frameX++;
+  else player.frameX = 0;
+  player.frameY = frameY;
 }
 
 function movePlayer(player) {
@@ -94,20 +99,20 @@ function movePlayer(player) {
 }
 
 function calc_movement(player) {
-  if (player.pUp && player.pRight) accelerate(10, -10, 45, player);
-  else if (player.pUp && player.pLeft) accelerate(-10, -10, -45, player);
-  else if (player.pDown && player.pRight) accelerate(10, 10, 135, player);
-  else if (player.pDown && player.pLeft) accelerate(-10, 10, -135, player);
-  else if (player.pRight) accelerate(10, 0, 90, player);
-  else if (player.pLeft) accelerate(-10, 0, -90, player);
-  else if (player.pUp) accelerate(0, -10, 360, player);
-  else if (player.pDown) accelerate(0, 10, 180, player);
+  if (player.pUp && player.pRight) accelerate(3, -3, 45, 3, player);
+  else if (player.pUp && player.pLeft) accelerate(-3, -3, -45, 3, player);
+  else if (player.pDown && player.pRight) accelerate(3, 3, 135, 0, player);
+  else if (player.pDown && player.pLeft) accelerate(-3, 3, -135, 0, player);
+  else if (player.pRight) accelerate(3, 0, 90, 2, player);
+  else if (player.pLeft) accelerate(-3, 0, -90, 1, player);
+  else if (player.pUp) accelerate(0, -3, 360, 3, player);
+  else if (player.pDown) accelerate(0, 3, 180, 0, player);
 }
 
 let BulletObj = function (cordX, cordY, id) {
   this.id = id;
-  this.cordX = cordX;
-  this.cordY = cordY;
+  this.cordX = cordX + 20;
+  this.cordY = cordY + 26.5;
   this.speedX = 0;
   this.speedY = 0;
 };

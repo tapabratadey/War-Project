@@ -1,6 +1,7 @@
 // const { update_player_cords } = require("../player/updateDB");
 
 const Bullet = require("./Bullet");
+const Game = require("../routes/game/Server.Game");
 
 export let playerList = {};
 
@@ -31,7 +32,7 @@ export function update_keys(socket, key) {
     else if (key.inputId === "up") user.pUp = key.state;
     else if (key.inputId === "down") user.pDown = key.state;
     else if (key.inputId === "shoot" && key.state && user.health > 0) {
-      if (user.inMatch) {
+      if (Game.inMatch) {
         let bullet = new BulletObj(user.cordX, user.cordY, user.id);
         Bullet.update_bullets(user, bullet);
       }
@@ -94,13 +95,13 @@ function movePlayer(player) {
 
 function calc_movement(player) {
   if (player.pUp && player.pRight) accelerate(10, -10, 45, player);
-  if (player.pUp && player.pLeft) accelerate(-10, -10, -45, player);
-  if (player.pDown && player.pRight) accelerate(10, 10, 135, player);
-  if (player.pDown && player.pLeft) accelerate(-10, 10, -135, player);
-  if (player.pRight) accelerate(10, 0, 90, player);
-  if (player.pLeft) accelerate(-10, 0, -90, player);
-  if (player.pUp) accelerate(0, -10, 360, player);
-  if (player.pDown) accelerate(0, 10, 180, player);
+  else if (player.pUp && player.pLeft) accelerate(-10, -10, -45, player);
+  else if (player.pDown && player.pRight) accelerate(10, 10, 135, player);
+  else if (player.pDown && player.pLeft) accelerate(-10, 10, -135, player);
+  else if (player.pRight) accelerate(10, 0, 90, player);
+  else if (player.pLeft) accelerate(-10, 0, -90, player);
+  else if (player.pUp) accelerate(0, -10, 360, player);
+  else if (player.pDown) accelerate(0, 10, 180, player);
 }
 
 let BulletObj = function (cordX, cordY, id) {

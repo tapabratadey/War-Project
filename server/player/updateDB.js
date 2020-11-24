@@ -13,6 +13,7 @@ export function update_login_data(player) {
         loggedIn: player.loggedIn,
         location: player.location,
         ipAddress: player.ipAddress,
+        health: player.health,
       },
     };
     update_one(query, update, options);
@@ -87,7 +88,7 @@ export function update_match_wins_rank(player) {
     const query = { _id: player._id };
     const update = {
       $set: {
-        matchWins: player.matchWins,
+        matchWins: player.mWins,
         mRank: player.mRank,
       },
     };

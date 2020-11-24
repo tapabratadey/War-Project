@@ -38,10 +38,7 @@ export async function register({ email, username, password, ip }, socket) {
         if (clientCode === saveCode) {
           socket.emit("userVerified");
           store_new_user(email, username, password, ip);
-          socket.emit("userSaved");
-        } else {
-          socket.emit("userNotVerified");
-        }
+        } else socket.emit("userNotVerified");
       });
     }
   }
@@ -75,7 +72,7 @@ export async function log_out(socket) {
 
 async function store_new_user(email, username, password, ip) {
   const url =
-    "https://cors-anywhere.herokuapp.com/http://ip-api.com/json/" +
+    "http://ip-api.com/json/" +
     ip +
     "?fields=status,message,query,country,city";
   const headers = {
@@ -123,7 +120,7 @@ function return_user_data(email, username, password, ip, location) {
 
 function update_logged_in_status(found_user, ip) {
   const url =
-    "https://cors-anywhere.herokuapp.com/http://ip-api.com/json/" +
+    "http://ip-api.com/json/" +
     ip +
     "?fields=status,message,query,country,city";
   const headers = {
@@ -137,6 +134,7 @@ function update_logged_in_status(found_user, ip) {
       found_user.loggedIn = "online";
       found_user.location = text.city + ", " + text.country;
       found_user.ipAddress = ip;
+      found_user.health = 100;
       update_login_data(found_user);
     });
 }

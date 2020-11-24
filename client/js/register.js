@@ -41,15 +41,13 @@ async function formValidation() {
     errPass.innerHTML = "Password length should be between 6-12.";
   else {
     //API for get requests
-    // await fetch(
-    //   "http://cors-anywhere.herokuapp.com/http://api.ipify.org?format=json"
-    // )
-    //   .then(checkError)
-    //   .then((ipAdd) => {
-    //     console.log(ipAdd);
-    //     storeIp = ipAdd.ip;
-    //   })
-    //   .catch((err) => console.log(err));
+    await fetch("http://api.ipify.org?format=json")
+      .then(checkError)
+      .then((ipAdd) => {
+        console.log(ipAdd);
+        storeIp = ipAdd.ip;
+      })
+      .catch((err) => console.log(err));
     var RegistrationData = {
       username: userId.value.toLowerCase(),
       email: email.value.toLowerCase(),

@@ -7,6 +7,7 @@ let playerName = document.getElementById("player-name");
 let logOut = document.getElementById("log-out");
 let menuSign = document.getElementById("menu-sign");
 let openMenu = document.getElementById("open-menu");
+let closeMenu = document.getElementById("close-menu");
 
 //====================>>
 //			ON LOAD
@@ -20,6 +21,7 @@ window.onload = function () {
     playerName.style.display = "block";
     logOut.style.display = "block";
     menuSign.style.display = "block";
+    closeMenu.style.display = "block";
   } else {
     window.location.href = "/";
   }
@@ -37,7 +39,7 @@ function resizeCanvas() {
 //====================>>
 socket.on("Game starting", function (data) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // displayTime(data.currentTime);
+  displayTime(data.currentTime);
   displayMatchStats(data);
   check_msg(data);
   game_loop(data);
@@ -55,7 +57,7 @@ function game_loop(data) {
 function check_msg(data) {
   let msg = data.msg;
   if (msg === "FIGHT!!!!!") {
-    displayTimer(data.mins, data.secs);
+    displayTimer("Match Time: ", data.mins, data.secs);
     min = 0;
   } else if (msg === "Match is Ending in...") {
     displayMessage("Match Ending in: ", data.secs);
@@ -80,6 +82,10 @@ menuSign.addEventListener("click", () => {
 
 logOut.addEventListener("click", () => {
   socket.emit("Log Out", playerName.innerHTML);
+});
+
+closeMenu.addEventListener("click", () => {
+  openMenu.style.display = "none";
 });
 
 //====================>>
@@ -185,7 +191,7 @@ function drawPlayer(player) {
 function drawBullet(player) {
   for (let j = 0; j < player.bulletArr.length; j++) {
     ctx.beginPath();
-    ctx.strokeStyle = "white";
+    ctx.strokeStyle = "#fff";
     ctx.lineWidth = 3;
     ctx.arc(
       player.bulletArr[j].cordX,
@@ -198,11 +204,11 @@ function drawBullet(player) {
   }
 }
 
-// function displayTime(currentTime) {
-//   ctx.font = "20px Courier New";
-//   ctx.fillStyle = "#fff";
-//   ctx.fillText(currentTime, 100, 20);
-// }
+function displayTime(currentTime) {
+  ctx.font = "20px Courier New";
+  ctx.fillStyle = "#fff";
+  ctx.fillText(currentTime, 100, 20);
+}
 
 function displayMessage(msg, timer) {
   ctx.font = "20px Courier New";
@@ -213,7 +219,7 @@ function displayMessage(msg, timer) {
 
 let min = 0;
 
-function displayTimer(mins, secs) {
+function displayTimer(msg, mins, secs) {
   let parseMin = mins.slice(1, 2);
   if (parseMin == 1 || parseMin == 6) min = 0;
   if (parseMin == 2 || parseMin == 7) min = 1;
@@ -223,7 +229,8 @@ function displayTimer(mins, secs) {
   let timer = min + ":" + secs;
   ctx.font = "20px Courier New";
   ctx.fillStyle = "#fff";
-  ctx.fillText(timer, 100, 40);
+  ctx.fillText(msg, 100, 40);
+  ctx.fillText(timer, 250, 40);
 }
 
 function displayWinner(msg, winner) {
@@ -238,6 +245,7 @@ function playerInfo(player) {
   ctx.fillStyle = "#fff";
   ctx.font = "10px Courier New";
   ctx.fillText(player.pName, player.pCordX, player.pCordY - 40);
+  ctx.fillText(player.mWins, player.pCordX + 40, player.pCordY - 40);
   let username = localStorage.getItem("userid");
   // playerName.innerHTML = player.pName;
   playerName.innerHTML = username;

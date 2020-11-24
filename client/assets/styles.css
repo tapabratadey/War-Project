@@ -269,7 +269,30 @@ td {
   justify-content: center;
 }
 
-#log-out-div {
+#footer-menu {
+  margin-top: 50vh;
+  height: 5vh;
+  width: 45vw;
+  background-color: rgba(17, 17, 17, 0.5);
+  position: absolute;
+  z-index: 2;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  display: flex;
+}
+
+#log-out {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 2;
+  margin-right: 20px;
+  margin-top: 5px;
+  opacity: 1 !important;
+  display: none;
+}
+
+#close-menu-div {
   width: 22.5vw;
   display: flex;
   justify-content: center;
@@ -286,7 +309,7 @@ td {
   margin-top: 5px;
 }
 
-#log-out {
+#close-menu {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -300,7 +323,7 @@ td {
 #stats {
   opacity: 1 !important;
   position: absolute;
-  height: 50vh;
+  height: 45vh;
   width: 45vw;
   margin-top: 5vh;
   display: flex;

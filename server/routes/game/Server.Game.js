@@ -8,6 +8,7 @@ import {
 } from "../../player/updateDB";
 
 export let SOCKET_LIST = {};
+export let inMatch = true;
 
 export async function init_game(socket, email) {
   const user = await User.findOne({ email: email });
@@ -22,18 +23,6 @@ export async function init_game(socket, email) {
     Player.playerList[socket.id] = user;
   }
 }
-
-// update_player_cords
-// power button
-// change player drawing
-// update leaderboard
-// change timing events
-// delete current time
-// update player wins/losses at the end of the match of winner/loser
-// diagonal calculations
-// show winning score for player
-// change icons
-// fix user name on the hamburger menu
 
 let user_array = [];
 
@@ -80,11 +69,12 @@ setInterval(function () {
     msg = "FIGHT!!!!!";
     if (mins % 5 == 4 && secs >= 50) msg = "Match is Ending in...";
   } else if (mins % 5 == 0) {
+    inMatch = false;
     //match not in session
     if (totalUsers > 1) {
       msg = "WINNER IS...";
       winner = find_winner(winner, infoPlayers);
-      if (winner || winner !== "No One") give_points(winner, infoPlayers);
+      if (winner && winner !== "Draw") give_points(winner, infoPlayers);
     }
     if (secs >= 15) msg = "New Match starting in...";
     if (secs == 50) reset_match_stats(infoPlayers);
@@ -106,10 +96,10 @@ function find_winner(winner, infoPlayers) {
     for (let j in infoPlayers) {
       if (i != j) {
         if (infoPlayers[j].mWins > matchWins) winner = infoPlayers[j].pName;
+        else if (infoPlayers[j].mWins == infoPlayers[i].mWins) winner = "Draw";
         else winner = infoPlayers[i].pName;
       }
     }
-    if (matchWins == 0) winner = "No One";
   }
   return winner;
 }
@@ -122,11 +112,19 @@ function give_points(winner, infoPlayers) {
   }
 }
 
-function send_players_to_client(infoPlayers, mins, secs, msg, winner) {
+function send_players_to_client(
+  infoPlayers,
+  currentTime,
+  mins,
+  secs,
+  msg,
+  winner
+) {
   for (let i in SOCKET_LIST) {
     let socket = SOCKET_LIST[i];
     socket.emit("Game starting", {
       infoPlayers,
+      currentTime,
       mins,
       secs,
       msg,

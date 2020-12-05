@@ -9,7 +9,7 @@ const {
 const Player = require("../player/Server.Player");
 const fetch = require("node-fetch");
 
-export async function login({ email, password, ip }, socket) {
+export async function login({ email, password }, socket) {
   const found_user = await User.findOne({ email });
   if (!found_user) {
     socket.emit("Email is not registered");
@@ -17,14 +17,14 @@ export async function login({ email, password, ip }, socket) {
     found_user.isValidPassword(password, async (err, matched) => {
       if (err) console.error(err);
       if (matched) {
-        update_logged_in_status(found_user, ip);
+        update_logged_in_status(found_user);
         socket.emit("UserAuthenticated", found_user.username);
       } else socket.emit("Username or Password is not valid");
     });
   }
 }
 
-export async function register({ email, username, password, ip }, socket) {
+export async function register({ email, username, password }, socket) {
   const userExists = await User.findOne({ email: email });
   const userIdExists = await User.findOne({ username: username });
   if (userExists) socket.emit("UserExists");
@@ -37,7 +37,7 @@ export async function register({ email, username, password, ip }, socket) {
       socket.on("Client Sending Code Back", async function (clientCode) {
         if (clientCode === saveCode) {
           socket.emit("userVerified");
-          store_new_user(email, username, password, ip);
+          store_new_user(email, username, password);
         } else socket.emit("userNotVerified");
       });
     }
@@ -71,23 +71,30 @@ export async function log_out(socket) {
 }
 
 async function store_new_user(email, username, password, ip) {
-  const url =
-    "http://ip-api.com/json/" +
-    ip +
-    "?fields=status,message,query,country,city";
+  const ipUrl = "http://api.ipify.org?format=json";
   const headers = {
     "X-Requested-With": "XMLHttpRequest",
   };
-  fetch(url, {
+  fetch(ipUrl, {
     headers: headers,
   })
     .then((res) => res.json())
     .then(async (text) => {
-      let location = text.city + ", " + text.country;
-      const user = new User(
-        return_user_data(email, username, password, ip, location)
-      );
-      await user.save();
+      const url =
+        "http://ip-api.com/json/" +
+        text.ip +
+        "?fields=status,message,query,country,city";
+      fetch(url, {
+        headers: headers,
+      })
+        .then((res) => res.json())
+        .then(async (loc) => {
+          let location = loc.city + ", " + loc.country;
+          const user = new User(
+            return_user_data(email, username, password, text.ip, location)
+          );
+          await user.save();
+        });
     });
 }
 
@@ -121,23 +128,30 @@ function return_user_data(email, username, password, ip, location) {
 }
 
 function update_logged_in_status(found_user, ip) {
-  const url =
-    "http://ip-api.com/json/" +
-    ip +
-    "?fields=status,message,query,country,city";
+  const ipUrl = "http://api.ipify.org?format=json";
   const headers = {
     "X-Requested-With": "XMLHttpRequest",
   };
-  fetch(url, {
+  fetch(ipUrl, {
     headers: headers,
   })
     .then((res) => res.json())
-    .then((text) => {
-      found_user.loggedIn = "online";
-      found_user.location = text.city + ", " + text.country;
-      found_user.ipAddress = ip;
-      found_user.health = 100;
-      update_login_data(found_user);
+    .then(async (text) => {
+      const url =
+        "http://ip-api.com/json/" +
+        text.ip +
+        "?fields=status,message,query,country,city";
+      fetch(url, {
+        headers: headers,
+      })
+        .then((res) => res.json())
+        .then(async (loc) => {
+          found_user.loggedIn = "online";
+          found_user.location = loc.city + ", " + loc.country;
+          found_user.ipAddress = text.ip;
+          found_user.health = 100;
+          update_login_data(found_user);
+        });
     });
 }
 

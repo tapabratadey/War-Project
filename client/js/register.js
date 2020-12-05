@@ -21,18 +21,7 @@ document.body.onkeydown = function (event) {
   }
 };
 
-function checkError(response) {
-  if (response.status >= 200 && response.status <= 299) {
-    return response.json();
-  } else {
-    throw Error(response.statusText);
-  }
-}
-
-let storeIp;
-let userLoc;
-
-async function formValidation() {
+function formValidation() {
   if (!userId.checkValidity())
     errId.innerHTML = "Username length should be between 2-4.";
   if (!email.checkValidity())
@@ -40,19 +29,10 @@ async function formValidation() {
   if (!password.checkValidity())
     errPass.innerHTML = "Password length should be between 6-12.";
   else {
-    //API for get requests
-    await fetch("http://api.ipify.org?format=json")
-      .then(checkError)
-      .then((ipAdd) => {
-        console.log(ipAdd);
-        storeIp = ipAdd.ip;
-      })
-      .catch((err) => console.log(err));
     var RegistrationData = {
       username: userId.value.toLowerCase(),
       email: email.value.toLowerCase(),
       password: password.value,
-      // ip: storeIp,
     };
     localStorage.setItem("user", RegistrationData.email);
     localStorage.setItem("userid", RegistrationData.username);

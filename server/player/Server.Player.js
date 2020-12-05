@@ -99,14 +99,14 @@ function movePlayer(player) {
 }
 
 function calc_movement(player) {
-  if (player.pUp && player.pRight) accelerate(3, -3, 45, 3, player);
-  else if (player.pUp && player.pLeft) accelerate(-3, -3, -45, 3, player);
-  else if (player.pDown && player.pRight) accelerate(3, 3, 135, 0, player);
-  else if (player.pDown && player.pLeft) accelerate(-3, 3, -135, 0, player);
-  else if (player.pRight) accelerate(3, 0, 90, 2, player);
-  else if (player.pLeft) accelerate(-3, 0, -90, 1, player);
-  else if (player.pUp) accelerate(0, -3, 360, 3, player);
-  else if (player.pDown) accelerate(0, 3, 180, 0, player);
+  if (player.pUp && player.pRight) accelerate(5, -5, 45, 3, player);
+  else if (player.pUp && player.pLeft) accelerate(-5, -5, -45, 3, player);
+  else if (player.pDown && player.pRight) accelerate(5, 5, 135, 0, player);
+  else if (player.pDown && player.pLeft) accelerate(-5, 5, -135, 0, player);
+  else if (player.pRight) accelerate(5, 0, 90, 2, player);
+  else if (player.pLeft) accelerate(-5, 0, -90, 1, player);
+  else if (player.pUp) accelerate(0, -5, 360, 3, player);
+  else if (player.pDown) accelerate(0, 5, 180, 0, player);
 }
 
 let BulletObj = function (cordX, cordY, id) {
@@ -115,6 +115,7 @@ let BulletObj = function (cordX, cordY, id) {
   this.cordY = cordY + 26.5;
   this.speedX = 0;
   this.speedY = 0;
+  this.radius = 2;
 };
 
 /*function sort_total_wins(players_info) {

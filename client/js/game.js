@@ -202,7 +202,7 @@ function drawBullet(player) {
     ctx.arc(
       player.bulletArr[j].cordX,
       player.bulletArr[j].cordY,
-      2,
+      player.bulletArr[j].radius,
       0,
       2 * Math.PI
     );

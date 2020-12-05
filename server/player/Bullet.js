@@ -21,10 +21,10 @@ export function moveBullet(player) {
 export function bulletHit(player, bullet) {
   if (bullet.id != player._id) {
     if (player.health != 0) {
-      let dx = player.cordX - bullet.cordX;
-      let dy = player.cordY - bullet.cordY;
+      let dx = player.cordX + 20 - bullet.cordX;
+      let dy = player.cordY + 26.5 - bullet.cordY;
       let distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < 30 + 4) {
+      if (distance < 30 + bullet.radius) {
         player.health -= 5;
         if (player.health === 0) {
           player.health = 100;

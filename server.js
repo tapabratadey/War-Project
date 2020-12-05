@@ -2,6 +2,8 @@ import express from "express";
 import http from "http";
 import socket from "socket.io";
 
+require("dotenv").config();
+
 const app = express();
 const server = http.Server(app);
 const io = socket(server);

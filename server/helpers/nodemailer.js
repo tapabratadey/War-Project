@@ -12,8 +12,8 @@ module.exports = {
       port: 587,
       secure: false, // true for 465, false for other ports
       auth: {
-        user: "superdupertester2020@gmail.com", // generated ethereal user
-        pass: "A2RgBaV25uMd6q5", // generated ethereal password
+        user: process.env.EMAIL, // generated ethereal user
+        pass: process.env.EMAIL_PASS, // generated ethereal password
       },
       tls: {
         rejectUnauthorized: false,

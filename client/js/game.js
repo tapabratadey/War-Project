@@ -29,7 +29,7 @@ socket.on("Okay to display game", function () {
 
 function resizeCanvas() {
   let width = 3840;
-  let height = 2160;
+  let height = 2144;
   canvas.width = width;
   canvas.height = height;
 }
@@ -292,5 +292,29 @@ function healthBar(player) {
     green_health(player);
   } else lifeRemaining(player, (100 - player.pHealth) / 50);
 }
+
+//===============>
+
+//===============>
+// MAP RENDERING
+//===============>
+
+let scene = {
+  layers: [],
+  renderLayer: function (layer) {},
+  renderLayers: function (layers) {},
+  loadTileset: function (json) {},
+  load: function (name) {
+    return $.ajax({
+      url: "/maps/" + name + ".json",
+      type: "JSON",
+    }).done($.proxy(this.loadTileset, this));
+  }
+};
+
+
+
+
+
 
 //===============>

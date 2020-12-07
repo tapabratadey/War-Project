@@ -11,7 +11,7 @@ export function moveBullet(player) {
       bulletArr[i].cordX < 0 ||
       bulletArr[i].cordX > 3840 ||
       bulletArr[i].cordY < 0 ||
-      bulletArr[i].cordY > 2160 ||
+      bulletArr[i].cordY > 2144 ||
       bulletHit(player, bulletArr[i])
     )
       bulletArr.splice(i, 1);

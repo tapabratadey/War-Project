@@ -87,14 +87,14 @@ function movePlayer(player) {
       player.cordX > 0 &&
       player.cordX <= 3840 &&
       player.cordY > 0 &&
-      player.cordY <= 2160
+      player.cordY <= 2144
     )
       calc_movement(player);
     if (player.cordX <= 0) player.cordX = 1;
     if (player.cordX >= 3840) player.cordX = 3830;
     //(-10)
     if (player.cordY <= 0) player.cordY = 1;
-    if (player.cordY >= 2160) player.cordY = 2150; //(-10)
+    if (player.cordY >= 2144) player.cordY = 2150; //(-10)
   }
 }
 
